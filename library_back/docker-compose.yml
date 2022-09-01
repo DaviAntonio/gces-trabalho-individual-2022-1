@@ -8,6 +8,35 @@ services:
     env_file: .env
     volumes:
       - pgdata:/var/lib/postgresql/data
+    networks:
+      library-db-network:
+        ipv4_address: "${POSTGRES_HOST}"
+    ports:
+      - "15432:${POSTGRES_PORT}"
+
+  django-backend:
+    container_name: django-backend
+    restart: always
+    build:
+      context: .
+      dockerfile: django-backend.dockerfile
+    env_file: .env
+    command: ["/bin/bash", "start-server.sh"]
+    networks:
+      library-db-network:
+        ipv4_address: 172.16.100.3
+    ports:
+      - "18000:8000"
+    depends_on:
+      - backend-db
 
 volumes:
   pgdata:
+
+networks:
+  library-db-network:
+    name: library-db-network
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.16.100.0/24"

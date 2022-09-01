@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+  backend-db:
+    container_name: backend-db
+    restart: always
+    image: postgres:14.5-bullseye
+    env_file: .env
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

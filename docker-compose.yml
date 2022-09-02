@@ -16,7 +16,7 @@ services:
 
   django-backend:
     container_name: django-backend
-    image: library-db-backend
+    image: library-backend
     restart: always
     build:
       context: ./library_back/
@@ -33,7 +33,7 @@ services:
 
   node-frontend:
     container_name: node-frontend
-    image: library-db-frontend
+    image: library-frontend
     restart: always
     build:
       context: ./library_front/
@@ -47,6 +47,21 @@ services:
       - "13000:3000"
     depends_on:
       - django-backend
+
+  nginx-proxy:
+    container_name: nginx-proxy
+    image: library-proxy
+    restart: always
+    build:
+      context: ./library_proxy/
+      dockerfile: nginx-proxy.dockerfile
+    networks:
+      library-db-network:
+        ipv4_address: 172.16.100.5
+    ports:
+      - "80:80"
+    depends_on:
+      - node-frontend
 
 volumes:
   pgdata:

@@ -52,6 +52,8 @@ services:
     container_name: nginx-proxy
     image: library-proxy
     restart: always
+    volumes:
+      - nginx-logs:/var/log/nginx
     build:
       context: ./library_proxy/
       dockerfile: nginx-proxy.dockerfile
@@ -65,6 +67,7 @@ services:
 
 volumes:
   pgdata:
+  nginx-logs:
 
 networks:
   library-db-network:

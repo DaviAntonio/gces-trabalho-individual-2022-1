@@ -67,7 +67,9 @@ services:
 
 volumes:
   pgdata:
+    name: pgdata
   nginx-logs:
+    name: nginx-logs
 
 networks:
   library-db-network:

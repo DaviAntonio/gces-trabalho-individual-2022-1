@@ -16,9 +16,10 @@ services:
 
   django-backend:
     container_name: django-backend
+    image: library-db-backend
     restart: always
     build:
-      context: .
+      context: ./library_back/
       dockerfile: django-backend.dockerfile
     env_file: .env
     command: ["/bin/bash", "start-server.sh"]
